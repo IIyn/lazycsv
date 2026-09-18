@@ -232,6 +232,11 @@ impl App {
 
     fn on_key(&mut self, k: Key) {
         self.msg = None;
+        // Works everywhere, even while typing in a prompt.
+        if k == Key::Ctrl('q') {
+            self.quit = true;
+            return;
+        }
         if self.prompt.is_some() {
             self.prompt_key(k);
             return;
@@ -799,9 +804,10 @@ impl App {
                 ("Go to", ":"),
                 ("Record", "enter"),
                 ("Copy", "y"),
+                ("Help", "?"),
+                ("Quit", "q"),
                 ("Header", "T"),
                 ("Delim", "D"),
-                ("Help", "?"),
             ],
         };
         let mut x = 0u16;
@@ -983,7 +989,7 @@ const HELP: &[(&str, &str)] = &[
     ("tab / 1 / 2", "switch panel"),
     ("e", "show / hide the explorer"),
     ("?", "this help"),
-    ("q, ctrl-c", "quit"),
+    ("q / ctrl-q", "quit (ctrl-q works everywhere)"),
     ("", ""),
     ("Explorer", ""),
     ("j k ↑ ↓", "move"),
